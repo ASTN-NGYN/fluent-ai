@@ -19,8 +19,8 @@ class AssessmentResponse(BaseModel):
 
 class FeedbackRequest(BaseModel):
     word: str
-    phoneme_scores = List[int]
-    language = str
+    phoneme_scores: List[int]
+    language: str
 
 @router.post("/assess-pronunciation", response_model=AssessmentResponse)
 async def assess_pronunciation_endpoint(
@@ -46,7 +46,6 @@ async def assess_pronunciation_endpoint(
         else:
             word['feedback'] = ""
             
-
     return {"overall": overall_scores, "words": word_breakdown}
 
 
