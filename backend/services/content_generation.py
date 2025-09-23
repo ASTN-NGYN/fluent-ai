@@ -48,7 +48,7 @@ async def generate_content(request: ContentRequest) -> ContentResponse:
     )
 
     content = response.choices[0].message.content.strip()
-    exercises = [line.strip().lstrip('0123456789. ') for line in content.split('\n') if line.strip()]
+    exercises = [line.strip().strip('"').strip("'").lstrip('0123456789. )') for line in content.split('\n') if line.strip()]
 
     return ContentResponse(
         topic=request.topic,

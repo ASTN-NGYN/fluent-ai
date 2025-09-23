@@ -8,9 +8,13 @@ import json
 
 load_dotenv()
 
+class PhonemeScore(BaseModel):
+    phoneme: str
+    score: float
+
 class FeedbackRequest(BaseModel):
     word: str
-    phoneme_scores: List[int]
+    phoneme_scores: List[PhonemeScore]
     language: str
 
 async def generate_feedback(request: FeedbackRequest):
@@ -26,6 +30,9 @@ async def generate_feedback(request: FeedbackRequest):
 
         Your task:
         - Provide actionable tips for phonemes with scores below 90.
+        - Also provide a single concise tip for the overall word pronunciation in 'word_tip'.
+        - In 'word_tip', explain how to pronounce the entire word correctly and also emphasize the weakest phoneme(s) if any.
+        - Use a friendly, encouraging tone.
         - Respond ONLY in valid JSON, never include extra text or explanations.
         - JSON format:
         {
@@ -33,14 +40,14 @@ async def generate_feedback(request: FeedbackRequest):
             {"phoneme": "r", "tip": "Roll your tongue slightly for 'r'."},
             {"phoneme": "o", "tip": "Round your lips for 'o'."}
         ],
-        "word_tip": "Pronounce the word slowly and clearly."
+        "word_tip": "Focus on stressing the first syllable clearly."
         }
         """
 
         user_prompt = f"""
         Word: "{request.word}"
         Language of practice: {request.language}
-        Phonemes and scores: {request.phonemes}
+        Phonemes and scores: {[{'phoneme': p.phoneme, 'score': p.score} for p in request.phoneme_scores]}
 
         Instructions:
         - Only include tips for phonemes scoring below 90.
