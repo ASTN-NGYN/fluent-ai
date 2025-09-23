@@ -1,8 +1,8 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from backend.services import content_generation
+from api import content
+from api import pronunciation
 from dotenv import load_dotenv
-import os
 
 load_dotenv()
 
@@ -20,7 +20,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.include_router(content_generation.router, prefix="/api", tags=["content"])
+app.include_router(content.router, prefix="/api", tags=["content generation"])
+app.include_router(pronunciation.router, prefix="/api", tags=["pronunciation grader"])
 
 @app.get("/")
 async def root():
