@@ -2,8 +2,8 @@ import logging
 from fastapi import APIRouter, UploadFile, Form, File
 from typing import List
 from pydantic import BaseModel
-from ..services.pronunciation_assessment import assess_pronunciation
-from ..services.feedback_generation import generate_feedback
+from services.pronunciation_assessment import assess_pronunciation
+from services.feedback_generation import generate_feedback
 
 router = APIRouter()
 

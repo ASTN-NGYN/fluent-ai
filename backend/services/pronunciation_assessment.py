@@ -1,7 +1,7 @@
 import os
 import azure.cognitiveservices.speech as speechsdk
 from dotenv import load_dotenv
-from ..utility.audio_utils import convert_to_wav
+from utility.audio_utils import convert_to_wav
 
 load_dotenv()
 speech_key = os.getenv("AZURE_SPEECH_KEY")
