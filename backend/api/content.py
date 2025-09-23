@@ -8,11 +8,15 @@ class ContentRequest(BaseModel):
     topic: str
     difficulty: str
     language: str = "English"
+
+class ContentResponse(BaseModel):
+    content: str
     
 
-@router.post("/generate-content")
+@router.post("/generate-content", response_model=ContentResponse)
 async def generate_content_endpoint(request: ContentRequest):
     try:
-        return generate_content(request)
+        result = await generate_content(request)
+        return result
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Content generation failed: {str(e)}")
