@@ -1,6 +1,8 @@
 import tempfile
 import subprocess
 from pathlib import Path
+import imageio_ffmpeg as ffmpeg
+
 
 async def convert_to_wav(input_bytes: bytes) -> Path:
 
@@ -11,8 +13,10 @@ async def convert_to_wav(input_bytes: bytes) -> Path:
     
     output_path = input_path.with_suffix(".wav")
 
+    ffmpeg_path = ffmpeg.get_ffmpeg_exe()
+
     subprocess.run([
-        "ffmpeg", "-y", "-i", str(input_path),
+        ffmpeg_path, "-y", "-i", str(input_path),
         "-ac", "1", "-ar", "16000", "-acodec", "pcm_s16le",
         str(output_path)
     ], check=True)
