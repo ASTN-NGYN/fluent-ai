@@ -8,7 +8,7 @@ load_dotenv()
 class ContentRequest(BaseModel):
     topic: str
     difficulty: str
-    language: str = "English"
+    language: str
 
 class ContentResponse(BaseModel):
     topic: str

@@ -7,10 +7,13 @@ router = APIRouter()
 class ContentRequest(BaseModel):
     topic: str
     difficulty: str
-    language: str = "English"
+    language: str
 
 class ContentResponse(BaseModel):
-    content: str
+    topic: str
+    difficulty: str
+    language: str
+    exercises: list[str]
     
 
 @router.post("/generate-content", response_model=ContentResponse)
