@@ -2,8 +2,14 @@ from pydantic import BaseModel
 import openai
 import os
 from dotenv import load_dotenv
+import json
 
 load_dotenv()
+
+class Exercise(BaseModel):
+    native: str
+    romanized: str
+    translation: str
 
 class ContentRequest(BaseModel):
     topic: str
@@ -14,7 +20,7 @@ class ContentResponse(BaseModel):
     topic: str
     difficulty: str
     language: str
-    exercises: list[str]
+    exercises: list[Exercise]
 
 async def generate_content(request: ContentRequest) -> ContentResponse:
     client = openai.OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
@@ -33,18 +39,24 @@ async def generate_content(request: ContentRequest) -> ContentResponse:
         instruction = "Generate 5 sentences suitable for pronunciation practice."
     
     prompt = f"""
-    {instruction} for pronunciation practice on the topic "{request.topic}" in {request.language}.
-    
+    {instruction} on the topic "{request.topic}" in {request.language}.
+
     Rules:
-    - Output only the words/phrases/sentences, nothing else
-    - Each word/phrase/sentence on a separate line
-    - Do NOT include any header, title, numbering, bullets, or extra text
+    - Return a JSON object with a single key "exercises".
+    - "exercises" is a list of entries.
+    - Each entry must include:
+        - "native": the word/phrase/sentence in {request.language}
+        - "romanized": the romanization in English letters (pinyin for Chinese, romaji for Japanese, etc.)
+        - "translation": English translation
+    - Return only valid JSON
+    - Do not include extra text, headers, or numbering
     """
 
     response = client.chat.completions.create(
-        model="gpt-4",
+        model="gpt-4o-mini",
+        response_format={"type": "json_object"},
         messages=[
-            {"role": "system", "content": "You are a helpful language teacher generating exercises."},
+            {"role": "system", "content": "You are a helpful language teacher generating pronunciation exercises."},
             {"role": "user", "content": prompt}
         ],
         max_tokens=500,
@@ -52,7 +64,10 @@ async def generate_content(request: ContentRequest) -> ContentResponse:
     )
 
     content = response.choices[0].message.content.strip()
-    exercises = [line.strip().strip('"').strip("'").lstrip('0123456789. )') for line in content.split('\n') if line.strip()]
+    try:
+        exercises = json.loads(content).get("exercises", [])
+    except json.JSONDecodeError:
+        exercises = []
 
     return ContentResponse(
         topic=request.topic,
