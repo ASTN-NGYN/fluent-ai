@@ -21,12 +21,16 @@ async def generate_content(request: ContentRequest) -> ContentResponse:
 
     if request.difficulty == "beginner":
         instruction = "Generate 8 single words only suitable for beginner pronunciation practice."
+    elif request.difficulty == "elementary":
+        instruction = "Generate 6 short phrases (2-3 words each) suitable for elementary pronunciation practice."
     elif request.difficulty == "intermediate":
-        instruction = "Generate 6 short phrases (2-4 words each) suitable for intermediate pronunciation practice."
-    elif request.difficulty == "hard":
-        instruction = "Generate 5 complete sentences, each 5-8 words long, suitable for advanced pronunciation practice."
+        instruction = "Generate 5 short sentences (4-6 words each) suitable for intermediate pronunciation practice."
+    elif request.difficulty == "advanced":
+        instruction = "Generate 5 complete sentences (7-10 words each) suitable for advanced pronunciation practice."
+    elif request.difficulty == "fluent":
+        instruction = "Generate 5 complex sentences (10-15 words each) suitable for fluent pronunciation practice."
     else:
-        instruction = "Generate 5 complete sentences, each 10-15 words long, suitable for advanced pronunciation practice."
+        instruction = "Generate 5 sentences suitable for pronunciation practice."
     
     prompt = f"""
     {instruction} for pronunciation practice on the topic "{request.topic}" in {request.language}.
