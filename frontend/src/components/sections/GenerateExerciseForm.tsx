@@ -75,9 +75,9 @@ export default function ExerciseForm() {
                                             <Select.Item
                                                 key={difficulty.value}
                                                 item={difficulty}
-                                                _hover={{ bg: "#CDE8E5", cursor: "pointer" }}
-                                                _highlighted={{ bg: "#CDE8E5" }}
-                                                _focus={{ bg: "#CDE8E5" }}
+                                                _hover={{ bg: "#e9f2f1", cursor: "pointer" }}
+                                                _highlighted={{ bg: "#e9f2f1" }}
+                                                _focus={{ bg: "#e9f2f1" }}
                                             >
                                                 {difficulty.label}
                                                 <Select.ItemIndicator />
@@ -116,9 +116,9 @@ export default function ExerciseForm() {
                                             <Select.Item
                                                 key={language.value}
                                                 item={language}
-                                                _hover={{ bg: "#CDE8E5", cursor: "pointer" }}
-                                                _highlighted={{ bg: "#CDE8E5" }}
-                                                _focus={{ bg: "#CDE8E5" }}
+                                                _hover={{ bg: "#e9f2f1", cursor: "pointer" }}
+                                                _highlighted={{ bg: "#e9f2f1" }}
+                                                _focus={{ bg: "#e9f2f1" }}
                                             >
                                                 {language.label}
                                                 <Select.ItemIndicator />
