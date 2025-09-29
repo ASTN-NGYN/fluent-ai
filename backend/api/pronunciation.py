@@ -15,15 +15,15 @@ class WordAssessment(BaseModel):
     word_accuracy: float
     phoneme_scores: List[PhonemeScore]
     feedback: Union[str, dict, None] = None
-
-class AssessmentResponse(BaseModel):
-    overall: dict
-    words: List[WordAssessment]
-
+    
 class FeedbackRequest(BaseModel):
     word: str
     phoneme_scores: List[PhonemeScore]
     language: str
+
+class AssessmentResponse(BaseModel):
+    overall: dict
+    words: List[WordAssessment]
 
 @router.post("/assess-pronunciation", response_model=AssessmentResponse)
 async def assess_pronunciation_endpoint(
