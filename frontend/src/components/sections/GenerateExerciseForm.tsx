@@ -5,27 +5,36 @@ import { Card, Field, Input, Stack, Button, Select, Portal } from "@chakra-ui/re
 import { difficulties, languages } from "@/constants/locales";
 import { generateContent } from "@/lib/api";
 
+
+type Exercise = {
+    native: string;
+    romanized: string;
+    translation: string;
+};
+
 export default function ExerciseForm() {
 
     const [topic, setTopic] = useState("");
     const [difficulty, setDifficulty] = useState("");
     const [language, setLanguage] = useState<{ label: string; value: string } | null>(null);
-    const [exercises, setExercises] = useState<string[]>([]);
+    const [exercises, setExercises] = useState<Exercise[]>([]);
+    const [loading, setLoading] = useState(false);
+
 
     const handleGenerate = async () => {
-        if (!topic || !difficulty || !language) {
-            alert("Please fill out all fields");
-            return;
-        }
+        if (!topic || !difficulty || !language) return;
 
+        setLoading(true);
         try {
             const response = await generateContent({ topic, difficulty, language: language.label });
             setExercises(response.exercises);
             console.log(response.exercises);
         } catch (err) {
             console.error(err);
+        } finally {
+            setLoading(false);
         }
-    }
+    };
 
     return (
         <Card.Root
@@ -136,9 +145,9 @@ export default function ExerciseForm() {
                     bg="#4D869C"
                     color="white"
                     onClick={handleGenerate}
-                    disabled={!topic || !difficulty || !language}
+                    disabled={!topic || !difficulty || !language || loading}
                 >
-                    Generate Exercises
+                    {loading ? "Generating..." : "Generate Exercises"}
                 </Button>
             </Card.Footer>
         </Card.Root>
