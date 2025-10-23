@@ -1,9 +1,30 @@
 "use client";
 
+import { useState } from "react";
 import { Box, Heading, Text } from "@chakra-ui/react";
 import ExerciseForm from "@/components/sections/GenerateExerciseForm";
+import ExerciseDisplay from "@/components/sections/ExerciseDisplay";
+
+type Exercise = {
+  native: string;
+  romanized: string;
+  translation: string;
+};
+
+type ExerciseData = {
+  topic: string;
+  difficulty: string;
+  language: string;
+  exercises: Exercise[];
+};
 
 export default function Home() {
+  const [exerciseData, setExerciseData] = useState<ExerciseData | null>(null);
+
+  const handleExercisesGenerated = (data: ExerciseData) => {
+    setExerciseData(data);
+  };
+
   return (
     <Box
       minH="100vh"
@@ -19,7 +40,15 @@ export default function Home() {
         </Text>
       </Box>
 
-      <ExerciseForm />
+      <ExerciseForm onExercisesGenerated={handleExercisesGenerated} />
+      {exerciseData && (
+        <ExerciseDisplay 
+          exercises={exerciseData.exercises}
+          topic={exerciseData.topic}
+          difficulty={exerciseData.difficulty}
+          language={exerciseData.language}
+        />
+      )}
     </Box>
   );
 }

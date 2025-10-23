@@ -12,7 +12,18 @@ type Exercise = {
     translation: string;
 };
 
-export default function ExerciseForm() {
+type ExerciseData = {
+    topic: string;
+    difficulty: string;
+    language: string;
+    exercises: Exercise[];
+};
+
+type ExerciseFormProps = {
+    onExercisesGenerated?: (data: ExerciseData) => void;
+};
+
+export default function ExerciseForm({ onExercisesGenerated }: ExerciseFormProps) {
 
     const [topic, setTopic] = useState("");
     const [difficulty, setDifficulty] = useState("");
@@ -29,6 +40,16 @@ export default function ExerciseForm() {
             const response = await generateContent({ topic, difficulty, language: language.label });
             setExercises(response.exercises);
             console.log(response.exercises);
+            
+            // Pass the complete exercise data to the parent component
+            if (onExercisesGenerated) {
+                onExercisesGenerated({
+                    topic,
+                    difficulty,
+                    language: language.label,
+                    exercises: response.exercises
+                });
+            }
         } catch (err) {
             console.error(err);
         } finally {
