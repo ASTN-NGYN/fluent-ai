@@ -15,9 +15,9 @@ export const languages = createListCollection({
     items: [
         { label: "Arabic (Egypt)", value: "ar-EG" },
         { label: "Arabic (Saudi Arabia)", value: "ar-SA" },
-        { label: "Chinese (Simplified)", value: "zh-CN" },
+        { label: "Chinese (Mandarin)", value: "zh-CN" },
         { label: "Chinese (Taiwan)", value: "zh-TW" },
-        { label: "Chinese (Hong Kong)", value: "zh-HK" },
+        { label: "Chinese (Cantonese)", value: "zh-HK" },
         { label: "Danish (Denmark)", value: "da-DK" },
         { label: "Dutch (Netherlands)", value: "nl-NL" },
         { label: "English (US)", value: "en-US" },
