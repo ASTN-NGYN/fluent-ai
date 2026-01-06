@@ -16,6 +16,7 @@ type ExerciseData = {
     topic: string;
     difficulty: string;
     language: string;
+    languageCode: string;
     exercises: Exercise[];
 };
 
@@ -47,6 +48,7 @@ export default function ExerciseForm({ onExercisesGenerated }: ExerciseFormProps
                     topic,
                     difficulty,
                     language: language.label,
+                    languageCode: language.value,
                     exercises: response.exercises
                 });
             }

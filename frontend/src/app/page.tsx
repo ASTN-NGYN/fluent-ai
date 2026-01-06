@@ -15,6 +15,7 @@ type ExerciseData = {
   topic: string;
   difficulty: string;
   language: string;
+  languageCode: string;
   exercises: Exercise[];
 };
 
@@ -47,6 +48,7 @@ export default function Home() {
           topic={exerciseData.topic}
           difficulty={exerciseData.difficulty}
           language={exerciseData.language}
+          languageCode={exerciseData.languageCode}
         />
       )}
     </Box>
